@@ -12,11 +12,7 @@ public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection;
 
     {
-        try {
-            connection = Util.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        connection = Util.getConnection();
     }
 
     public UserDaoJDBCImpl() { }
