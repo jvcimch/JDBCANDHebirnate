@@ -23,7 +23,7 @@ public class Util {
     private static SessionFactory sessionFactory;
 
     public static Connection getConnection(){
-        Connection connection;
+        Connection connection = null;
         try{
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, USER, PASS);
