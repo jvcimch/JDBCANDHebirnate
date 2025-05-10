@@ -12,29 +12,26 @@ public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection;
 
     {
-        try {
-            connection = Util.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        connection = Util.getConnection();
     }
 
     public UserDaoJDBCImpl() { }
 
     public void createUsersTable() {
-        String sqlCom = "CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT)";
+        String sqlCom = "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT)";
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sqlCom);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error creating table: " + e.getMessage(), e);
         }
     }
 
     public void dropUsersTable() {
-        String sql = "DROP TABLE users";
+        String sql = "DROP TABLE IF NOT EXISTS users";
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            throw new RuntimeException("Error dropping table: " + e.getMessage(), e);
         }
     }
 
